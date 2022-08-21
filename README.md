@@ -39,8 +39,72 @@ The model used is a Multi-Layer Perceptron for Regression model, which is a simp
 The target value that was used is:
 __min_distance+factor*(ground_truth-min_distance)__
 
-By ranning on various target values to compare the results of each of them to the version of the algorithm without any such model the optimal factor can be chosen.
+By running on various target values to compare the results of each of them to the version of the algorithm without any such model the optimal factor can be chosen.
 
 We compared the speed results by the average time per run, and the accuracy results by the Jaccard Index as well as the average distance between the corners of the found template to the ground truth one.
 
 On the final round, we measured the results of 15 models with factor in the range 0.15-0.6 and got the following results on 400 test runs:
+
+![model_comperasion](https://user-images.githubusercontent.com/87817221/185794845-c5ffd127-b788-4029-94ac-4c986a5131a3.png)
+
+We can clearly notice the trade-off between accuracy and time. For instance, models with factor in range 1.5 to 2.1 got corner distance values higher and Jaccard index values lower than the rest of the models, while models with higher factor values got good accuracy results but it took them more seconds to complete a run.
+
+We can also notice by comparing to the first bar, that our models can barely improve the accuracy, but they can improve the speed of the algorithm, mainly the worst cases as indicated by the average value of the bar in the Time graph. This worst-case improvement is demonstrated in the following graph which shows the time results on 400 runs (on each model), sorted by the time values got on the runs without any model (in black):
+
+![time_compare](https://user-images.githubusercontent.com/87817221/185794962-2a226796-2948-4b7e-9edf-e5419b8ebad6.png)
+
+We could use this trade-off to integrate the desired model according to the purpose of our usage in the algorithm, but if we would have need to choose one model which works good generally, we would integrate the model with the factor 0.241 for its good speed results and slight accuracy improvement.
+
+This improvement shows that the use of such model in the FAsT-Match algorithm increases its stability in terms of speed, while keeping the same quality of results.
+
+## How to Run This Project
+
+In order to run the code, ones need to download the following packages:
+
+* NumPy
+* Matplotlib
+* OpenCV
+* scikit-learn
+* pandas
+* PyTorch
+* shapely
+
+This project can be run from PyCharm by running the main file and uncommenting the parts of the project which you want to activate in the `main` function in the function main.py.
+
+```
+# There are two options to test the algorithm, uncomment the one you would like to run.
+
+images_folder = r"Images"  # Any image can be chosen
+models_path = r"PyTorch_models"  # Choose which model you would like to test from the 'PyTorch_models' folder
+
+# OPTION 1
+# Run the FAsT-Match algorithm on an example image with a given/random template
+'''
+ex_image = cv2.imread(images_folder + "/thai_food.jpg")
+ex_image = cv2.cvtColor(ex_image, cv2.COLOR_BGR2RGB)
+
+# Given template:
+ex_template = cv2.imread(...)
+ex_real_corners = ...
+
+# Random template:
+ex_template, ex_real_corners = random_template(ex_image)
+
+# With model
+mlp_model = MLP.load_model(models_path + "/mlp0.241577.pth")
+example_run(ex_image, ex_template, ex_real_corners, mlp_model)
+
+# Without model
+example_run(ex_image, ex_template, ex_real_corners)
+'''
+
+# OPTION 2
+# Compare the original FAsT-Match algorithm to the algorithm with the improvement model
+'''
+mlp_model = MLP.load_model(models_path + "/mlp0.241577.pth")
+img = cv2.imread(images_folder + "/zurich_object0024.view05.jpg")
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+templates_amount = 3
+check_model(templates_amount, img, mlp_model)
+'''
+```
