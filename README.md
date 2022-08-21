@@ -1,6 +1,7 @@
 # FAsT-Match
-FAsT-Match (Fast Affine Template Matching) is an algorithm designed by Simon Korman, Daniel Reichman, Gilad Tsur and Shai Avidan [(source)](https://www.cs.haifa.ac.il/~skorman/FastMatch/index.html) to search a fixed template inside an image, using the B&B technique.
-This is a python implementation of the FAsT-Match algorithm with threshold learning option.
+FAsT-Match (Fast Affine Template Matching) is an algorithm designed by Simon Korman, Daniel Reichman, Gilad Tsur and Shai Avidan [(source)](https://www.cs.haifa.ac.il/~skorman/FastMatch/index.html) to search a fixed template inside an image, using the B&B technique.  
+This is a Python implementation of the FAsT-Match algorithm with threshold learning option.  
+The full project repository is available [here](https://github.com/Asaf21S/Final-Project).
 
 ## The Algorithem
 Branch-and-Bound (B&B) is a general technique for accelerating brute-force in large domains. It is used when a globally optimal is desirable, while more efficient optimization methods (like gradient descent) are irrelevant (e.g., due to the minimized function being nonconvex). A particular example of interest, very common in computer vision, is that of template matching (or image alignment), where one image (the template) is searched in another. This is useful, for example, in applications like stitching of panoramas, object localization and tracking.
@@ -20,7 +21,7 @@ The configurations in red were not close enough to expand in the next level (dis
 The f(δ) part of the bound is a linear combination of the delta hyper-parameter of the algorithm, which is responsible for the grid resolution of the search space, and it is lowered by the same factor each level. This linear combination has been computed manually through trial and error and it uses only one parameter – δ (delta), because of those reasons, it is not always optimal.
 
 ## Learning the Threshold
-To tackle the previos issue, this project contains a Neural-Network model implemented in the FAsT-Match algorithm code and improves the decision process of the abovementioned higher bound, resulting in time and accuracy improvement of the FAsT-Match algorithm.
+To tackle the previous issue, this project contains a Neural-Network model implemented in the FAsT-Match algorithm code and improves the decision process of the abovementioned higher bound, resulting in time and accuracy improvement of the FAsT-Match algorithm.
 
 Now, we will consider the threashold to be:
 
