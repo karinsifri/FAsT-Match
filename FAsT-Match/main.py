@@ -3,14 +3,15 @@ from CreateSamples import random_template
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
+from shapely.geometry import Polygon
 import time
 import MLP
 
 
-def example_run(image, template, real_corners=None, mlp_model=None):
+def example_run(image, template, real_corners, model=None):
     fm = FastMatch()
     result_image = image.copy()
-    corners, _, _ = fm.run(image, template, real_corners=real_corners, mlp_model=mlp_model)
+    corners, _, _ = fm.run(image, template, mlp_model=model)
     print("Actual corners:")
     print(real_corners[0], real_corners[1], real_corners[2], real_corners[3])
 
@@ -50,9 +51,8 @@ def corner_dist(corners1, corners2):
 
 
 def jaccard_index(pol1_xy, pol2_xy):
-    from shapely.geometry import Polygon
     pol1_xy_copy = np.copy(pol1_xy)
-    pol1_xy_copy = np.squeeze(pol1_xy)
+    pol1_xy_copy = np.squeeze(pol1_xy_copy)
 
     # Define each polygon
     polygon1_shape = Polygon(pol1_xy_copy)
@@ -127,17 +127,28 @@ def check_model(iterations, image, model):
 if __name__ == '__main__':
     # There are two options to test the algorithm, uncomment the one you would like to run.
 
-    images_folder = r"Images"  # eny image can be chosen
-    models_path = r"PyTorch_models"  # chose which model you would like to test from the 'PyTorch_models' folder
+    images_folder = r"Images"  # Any image can be chosen
+    models_path = r"PyTorch_models"  # Choose which model you would like to test from the 'PyTorch_models' folder
 
     # OPTION 1
     # Run the FAsT-Match algorithm on an example image with a given/random template
     '''
     ex_image = cv2.imread(images_folder + "/thai_food.jpg")
     ex_image = cv2.cvtColor(ex_image, cv2.COLOR_BGR2RGB)
+    
+    # Given template:
+    ex_template = cv2.imread(...)
+    ex_real_corners = ...
+    
+    # Random template:
     ex_template, ex_real_corners = random_template(ex_image)
+    
+    # With model
     mlp_model = MLP.load_model(models_path + "/mlp0.241577.pth")
     example_run(ex_image, ex_template, ex_real_corners, mlp_model)
+    
+    # Without model
+    example_run(ex_image, ex_template, ex_real_corners)
     '''
 
     # OPTION 2
