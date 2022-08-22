@@ -2,7 +2,7 @@
 FAsT-Match (Fast Affine Template Matching) is an algorithm designed by Simon Korman, Daniel Reichman, Gilad Tsur and Shai Avidan [(source)](https://www.cs.haifa.ac.il/~skorman/FastMatch/index.html) to search a fixed template inside an image, using the B&B technique.  
 This is a Python implementation of the FAsT-Match algorithm with threshold learning option.
 
-## The Algorithem
+## The Algorithm
 Branch-and-Bound (B&B) is a general technique for accelerating brute-force in large domains. It is used when a globally optimal is desirable, while more efficient optimization methods (like gradient descent) are irrelevant (e.g., due to the minimized function being nonconvex). A particular example of interest, very common in computer vision, is that of template matching (or image alignment), where one image (the template) is searched in another. This is useful, for example, in applications like stitching of panoramas, object localization and tracking.
 
 The template which the FAsT-Match algorithm is trying to find, can be found scaled up/down, rotated and affined, therefore the number of transformations to consider is huge, and the higher bound on each sub-space of the domain is varied with respect to the current parameters and the loss function.
